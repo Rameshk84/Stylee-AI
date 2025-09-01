@@ -48,31 +48,29 @@ export const ImageUpload = ({ onImageSelect, selectedImage, onClear }: ImageUplo
 
   if (selectedImage) {
     return (
-      <Card className="relative overflow-hidden bg-gradient-primary shadow-elegant border-0">
-        <div className="relative aspect-square max-w-sm mx-auto">
-          <img
-            src={selectedImage}
-            alt="Selected outfit"
-            className="w-full h-full object-cover rounded-lg"
-          />
-          <Button
-            onClick={onClear}
-            variant="destructive"
-            size="sm"
-            className="absolute top-2 right-2 rounded-full w-8 h-8 p-0"
-          >
-            <X className="w-4 h-4" />
-          </Button>
-        </div>
-      </Card>
+      <div className="relative mx-auto max-w-xs">
+        <img
+          src={selectedImage}
+          alt="Selected outfit"
+          className="w-full h-48 object-cover rounded-lg"
+        />
+        <Button
+          onClick={onClear}
+          variant="outline"
+          size="sm"
+          className="absolute top-2 right-2 w-8 h-8 p-0 bg-background"
+        >
+          <X className="w-4 h-4" />
+        </Button>
+      </div>
     );
   }
 
   return (
-    <Card
+    <div
       className={cn(
-        "border-2 border-dashed transition-all duration-300 cursor-pointer shadow-card",
-        "hover:shadow-elegant hover:border-primary/50",
+        "border-2 border-dashed rounded-lg p-6 text-center transition-all duration-200 cursor-pointer",
+        "hover:border-primary/50",
         isDragging ? "border-primary bg-primary/5" : "border-muted-foreground/25"
       )}
       onDrop={handleDrop}
@@ -80,31 +78,22 @@ export const ImageUpload = ({ onImageSelect, selectedImage, onClear }: ImageUplo
       onDragLeave={handleDragLeave}
       onClick={triggerFileInput}
     >
-      <div className="p-8 text-center space-y-4">
-        <div className="mx-auto w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center">
-          <Upload className="w-8 h-8 text-white" />
+      <div className="space-y-4">
+        <div className="mx-auto w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
+          <Upload className="w-6 h-6 text-white" />
         </div>
         
         <div className="space-y-2">
-          <h3 className="text-xl font-semibold">Upload Your Outfit Photo</h3>
-          <p className="text-muted-foreground">
-            Drop an image here or click to select
+          <p className="font-medium">
+            {isDragging ? "Drop your photo here" : "Upload outfit photo"}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Tap to select or drag & drop
           </p>
         </div>
         
-        <div className="flex justify-center gap-3">
-          <Button variant="outline" className="gap-2">
-            <Upload className="w-4 h-4" />
-            Choose File
-          </Button>
-          <Button variant="outline" className="gap-2">
-            <Camera className="w-4 h-4" />
-            Camera
-          </Button>
-        </div>
-        
         <p className="text-xs text-muted-foreground">
-          Supports JPG, PNG, WEBP up to 10MB
+          JPG, PNG, WEBP • Max 10MB
         </p>
       </div>
       
@@ -115,6 +104,6 @@ export const ImageUpload = ({ onImageSelect, selectedImage, onClear }: ImageUplo
         onChange={handleInputChange}
         className="hidden"
       />
-    </Card>
+    </div>
   );
 };

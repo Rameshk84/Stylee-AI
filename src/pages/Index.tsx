@@ -104,99 +104,75 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-primary opacity-90"></div>
-        <img 
-          src={heroImage} 
-          alt="Fashion styling" 
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        
-        <div className="relative container mx-auto px-4 py-20 text-center text-white">
-          <div className="max-w-3xl mx-auto space-y-6">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <Shirt className="w-12 h-12" />
-              <h1 className="text-5xl font-bold">StyleAI</h1>
-              <Sparkles className="w-12 h-12 animate-pulse" />
-            </div>
-            
-            <p className="text-xl opacity-90 leading-relaxed">
-              Get personalized outfit analysis and style recommendations powered by AI. 
-              Perfect your look for any occasion.
-            </p>
-            
-            <div className="flex flex-wrap gap-4 justify-center pt-6">
-              <div className="flex items-center gap-2 bg-white/20 backdrop-blur px-4 py-2 rounded-full">
-                <Sparkles className="w-4 h-4" />
-                <span className="text-sm font-medium">AI-Powered Analysis</span>
-              </div>
-              <div className="flex items-center gap-2 bg-white/20 backdrop-blur px-4 py-2 rounded-full">
-                <Shirt className="w-4 h-4" />
-                <span className="text-sm font-medium">Personalized Suggestions</span>
-              </div>
-            </div>
+      <section className="relative bg-gradient-primary text-white py-16 px-4">
+        <div className="container mx-auto text-center max-w-2xl">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Sparkles className="w-8 h-8" />
+            <h1 className="text-3xl md:text-4xl font-bold">StyleAI</h1>
           </div>
+          
+          <p className="text-lg opacity-90 mb-6">
+            AI-powered outfit analysis for any occasion
+          </p>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="container mx-auto px-4 py-12 space-y-8">
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Left Column */}
-          <div className="space-y-6">
-            <Card className="p-2 bg-gradient-primary border-0">
-              <div className="bg-background rounded-lg p-4">
-                <h2 className="text-2xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
-                  Upload Your Outfit
-                </h2>
-                <ImageUpload
-                  onImageSelect={handleImageSelect}
-                  selectedImage={selectedImage}
-                  onClear={clearImage}
-                />
-              </div>
-            </Card>
+      <section className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="space-y-8">
+          {/* Upload Section */}
+          <Card className="p-6">
+            <h2 className="text-xl font-semibold mb-4 text-center">
+              Upload Your Outfit Photo
+            </h2>
+            <ImageUpload
+              onImageSelect={handleImageSelect}
+              selectedImage={selectedImage}
+              onClear={clearImage}
+            />
+          </Card>
 
+          {/* Occasion Selection */}
+          {selectedImage && (
             <OccasionSelector
               selectedOccasion={selectedOccasion}
               onSelect={setSelectedOccasion}
             />
+          )}
 
-            {selectedImage && selectedOccasion && (
-              <div className="text-center">
-                <Button
-                  onClick={handleAnalyze}
-                  disabled={isAnalyzing}
-                  className="bg-gradient-primary hover:shadow-elegant transition-all duration-300 px-8 py-6 text-lg"
-                  size="lg"
-                >
-                  {isAnalyzing ? (
-                    <>
-                      <Sparkles className="w-5 h-5 mr-2 animate-spin" />
-                      Analyzing Your Style...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-5 h-5 mr-2" />
-                      Analyze My Outfit
-                    </>
-                  )}
-                </Button>
-              </div>
-            )}
-          </div>
+          {/* Analyze Button */}
+          {selectedImage && selectedOccasion && (
+            <div className="text-center">
+              <Button
+                onClick={handleAnalyze}
+                disabled={isAnalyzing}
+                className="bg-gradient-primary hover:shadow-card transition-all duration-300 px-8 py-3"
+                size="lg"
+              >
+                {isAnalyzing ? (
+                  <>
+                    <Sparkles className="w-5 h-5 mr-2 animate-spin" />
+                    Analyzing...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-5 h-5 mr-2" />
+                    Analyze My Outfit
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
 
-          {/* Right Column */}
-          <div className="space-y-6">
-            <OutfitAnalysis analysis={analysis} isLoading={isAnalyzing} />
-            
-            {analysis && selectedOccasion && (
-              <StyleSuggestions 
-                suggestions={mockSuggestions} 
-                occasion={selectedOccasion}
-              />
-            )}
-          </div>
+          {/* Results */}
+          <OutfitAnalysis analysis={analysis} isLoading={isAnalyzing} />
+          
+          {analysis && selectedOccasion && (
+            <StyleSuggestions 
+              suggestions={mockSuggestions} 
+              occasion={selectedOccasion}
+            />
+          )}
         </div>
       </section>
     </div>

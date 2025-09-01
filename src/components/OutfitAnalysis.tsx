@@ -52,92 +52,88 @@ export const OutfitAnalysis = ({ analysis, isLoading }: OutfitAnalysisProps) => 
   };
 
   return (
-    <Card className="p-6 space-y-6 shadow-elegant bg-gradient-to-br from-card to-card/80 border-0">
+    <Card className="p-6 space-y-6">
       {/* Overall Score */}
       <div className="text-center space-y-4">
-        <div className="relative inline-flex items-center justify-center">
+        <div className="inline-flex items-center justify-center">
           <div className={cn(
-            "w-24 h-24 rounded-full bg-gradient-to-br flex items-center justify-center shadow-lg",
+            "w-20 h-20 rounded-full bg-gradient-to-br flex items-center justify-center",
             getScoreGradient(analysis.overallScore)
           )}>
-            <span className="text-2xl font-bold text-white">
+            <span className="text-xl font-bold text-white">
               {analysis.overallScore}
             </span>
           </div>
-          <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-fashion-gold animate-pulse" />
         </div>
         
         <div>
-          <h3 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            Outfit Analysis
+          <h3 className="text-xl font-bold">
+            Your Style Score
           </h3>
-          <p className="text-muted-foreground">Overall Style Score</p>
+          <p className="text-muted-foreground text-sm">Overall outfit rating</p>
         </div>
       </div>
 
       {/* Detailed Metrics */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         <MetricCard
-          label="Color Harmony"
+          label="Colors"
           score={analysis.colorHarmony}
           icon={<Heart className="w-4 h-4" />}
         />
         <MetricCard
-          label="Style Coherence"
+          label="Style"
           score={analysis.styleCoherence}
           icon={<Star className="w-4 h-4" />}
         />
         <MetricCard
-          label="Fit Quality"
+          label="Fit"
           score={analysis.fitQuality}
           icon={<TrendingUp className="w-4 h-4" />}
         />
         <MetricCard
-          label="Trendiness"
+          label="Trends"
           score={analysis.trendiness}
           icon={<Sparkles className="w-4 h-4" />}
         />
       </div>
 
       {/* Style Tags */}
-      <div className="space-y-2">
-        <h4 className="font-semibold">Style Tags</h4>
-        <div className="flex flex-wrap gap-2">
+      <div className="space-y-3">
+        <div className="flex flex-wrap gap-2 justify-center">
           {analysis.tags.map((tag, index) => (
-            <Badge key={index} variant="secondary" className="bg-gradient-primary text-white border-0">
+            <Badge key={index} variant="secondary" className="text-xs">
               {tag}
             </Badge>
           ))}
         </div>
       </div>
 
-      {/* Strengths & Improvements */}
-      <div className="grid md:grid-cols-2 gap-4">
-        <div className="space-y-3">
-          <h4 className="font-semibold text-rating-excellent flex items-center gap-2">
-            <Star className="w-4 h-4" />
-            Strengths
+      {/* Key Points */}
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <h4 className="font-medium text-sm flex items-center gap-2">
+            <Star className="w-4 h-4 text-green-500" />
+            What's Working
           </h4>
           <ul className="space-y-1">
-            {analysis.strengths.map((strength, index) => (
-              <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
-                <span className="w-1.5 h-1.5 bg-rating-excellent rounded-full mt-2 flex-shrink-0"></span>
-                {strength}
+            {analysis.strengths.slice(0, 2).map((strength, index) => (
+              <li key={index} className="text-sm text-muted-foreground">
+                • {strength}
               </li>
             ))}
           </ul>
         </div>
         
-        <div className="space-y-3">
-          <h4 className="font-semibold text-fashion-purple flex items-center gap-2">
-            <TrendingUp className="w-4 h-4" />
-            Improvements
+        <div className="space-y-2">
+          <h4 className="font-medium text-sm flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-blue-500" />
+            Quick Improvements
           </h4>
           <ul className="space-y-1">
-            {analysis.improvements.map((improvement, index) => (
-              <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
-                <span className="w-1.5 h-1.5 bg-fashion-purple rounded-full mt-2 flex-shrink-0"></span>
-                {improvement}
+            {analysis.improvements.slice(0, 2).map((improvement, index) => (
+              <li key={index} className="text-sm text-muted-foreground">
+                • {improvement}
               </li>
             ))}
           </ul>
@@ -162,17 +158,17 @@ const MetricCard = ({ label, score, icon }: MetricCardProps) => {
   };
 
   return (
-    <div className="p-3 bg-muted/50 rounded-lg space-y-2">
+    <div className="p-3 bg-muted/30 rounded-lg space-y-2">
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium flex items-center gap-1">
+        <span className="text-xs font-medium flex items-center gap-1">
           {icon}
           {label}
         </span>
-        <span className="text-sm font-bold" style={{ color: getScoreColor(score) }}>
-          {score}%
+        <span className="text-xs font-bold" style={{ color: getScoreColor(score) }}>
+          {score}
         </span>
       </div>
-      <Progress value={score} className="h-2" />
+      <Progress value={score} className="h-1.5" />
     </div>
   );
 };

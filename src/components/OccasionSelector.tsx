@@ -77,39 +77,37 @@ interface OccasionSelectorProps {
 
 export const OccasionSelector = ({ selectedOccasion, onSelect }: OccasionSelectorProps) => {
   return (
-    <Card className="p-6 space-y-4 shadow-card">
-      <div className="text-center space-y-2">
-        <h3 className="text-xl font-semibold bg-gradient-primary bg-clip-text text-transparent">
+    <Card className="p-6">
+      <div className="text-center mb-6">
+        <h3 className="text-lg font-semibold mb-2">
           What's the Occasion?
         </h3>
         <p className="text-muted-foreground text-sm">
-          Select the event type for personalized style advice
+          Choose your event type
         </p>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
         {occasions.map((occasion) => (
           <Button
             key={occasion.id}
-            variant="outline"
+            variant={selectedOccasion === occasion.id ? "default" : "outline"}
             className={cn(
-              "h-auto p-4 flex flex-col items-center gap-2 transition-all duration-300",
-              "hover:shadow-lg hover:scale-105",
-              selectedOccasion === occasion.id && "ring-2 ring-primary shadow-elegant"
+              "h-auto p-3 flex flex-col items-center gap-2 transition-all duration-200",
+              selectedOccasion === occasion.id && "bg-gradient-primary text-white"
             )}
             onClick={() => onSelect(occasion.id)}
           >
             <div className={cn(
-              "w-10 h-10 rounded-full bg-gradient-to-br flex items-center justify-center text-white",
-              occasion.gradient
+              "w-8 h-8 rounded-full flex items-center justify-center",
+              selectedOccasion === occasion.id 
+                ? "bg-white/20" 
+                : cn("bg-gradient-to-br text-white", occasion.gradient)
             )}>
               {occasion.icon}
             </div>
             <div className="text-center">
               <div className="font-medium text-xs">{occasion.label}</div>
-              <div className="text-[10px] text-muted-foreground leading-tight mt-1">
-                {occasion.description}
-              </div>
             </div>
           </Button>
         ))}
