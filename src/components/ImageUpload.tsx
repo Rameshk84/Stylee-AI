@@ -219,11 +219,11 @@ export const ImageUpload = ({ onImageSelect, selectedImage, onClear }: ImageUplo
         />
       </div>
       
-      <div className="text-center">
+      <div className="text-center mt-4">
         <Button
           onClick={toggleCameraMode}
           variant="outline"
-          className="w-full"
+          className="w-full bg-background border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/30 transition-all"
         >
           <Camera className="w-4 h-4 mr-2" />
           Take Photo with Camera
