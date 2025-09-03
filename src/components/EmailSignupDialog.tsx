@@ -100,16 +100,6 @@ export const EmailSignupDialog = ({ open, onOpenChange }: EmailSignupDialogProps
                 </>
               )}
             </Button>
-            
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={handleSkip}
-              disabled={isSubmitting}
-              className="text-sm"
-            >
-              Maybe later
-            </Button>
           </div>
         </form>
         
