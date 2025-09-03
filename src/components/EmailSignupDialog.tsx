@@ -96,7 +96,7 @@ export const EmailSignupDialog = ({ open, onOpenChange }: EmailSignupDialogProps
               ) : (
                 <>
                   <Mail className="w-4 h-4 mr-2" />
-                  Create free account
+                  Check my Outfit Score
                 </>
               )}
             </Button>
