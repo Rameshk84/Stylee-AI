@@ -6,6 +6,7 @@ import { ImageUpload } from '@/components/ImageUpload';
 import { OccasionSelector } from '@/components/OccasionSelector';
 import { OutfitAnalysis } from '@/components/OutfitAnalysis';
 import { StyleSuggestions } from '@/components/StyleSuggestions';
+import { EmailSignupDialog } from '@/components/EmailSignupDialog';
 import { useToast } from '@/hooks/use-toast';
 import heroImage from '@/assets/hero-fashion.jpg';
 
@@ -63,6 +64,7 @@ const Index = () => {
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<any>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showEmailSignup, setShowEmailSignup] = useState(false);
 
   const handleImageSelect = (file: File) => {
     const url = URL.createObjectURL(file);
@@ -93,6 +95,8 @@ const Index = () => {
         title: "Analysis complete!",
         description: "Your outfit has been analyzed. Check out the results below.",
       });
+      // Show email signup popup after analysis completes
+      setShowEmailSignup(true);
     }, 3000);
   };
 
@@ -175,6 +179,12 @@ const Index = () => {
           )}
         </div>
       </section>
+
+      {/* Email Signup Dialog */}
+      <EmailSignupDialog 
+        open={showEmailSignup} 
+        onOpenChange={setShowEmailSignup} 
+      />
     </div>
   );
 };

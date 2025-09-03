@@ -1,0 +1,122 @@
+import { useState } from 'react';
+import { Mail, Sparkles, X } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/hooks/use-toast';
+
+interface EmailSignupDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+export const EmailSignupDialog = ({ open, onOpenChange }: EmailSignupDialogProps) => {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email || !email.includes('@')) {
+      toast({
+        title: "Invalid email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    // Simulate signup process - replace with actual Supabase auth once connected
+    setTimeout(() => {
+      toast({
+        title: "Welcome to StyleAI! 🎉",
+        description: "Your account has been created successfully. You can now save your outfit analyses!",
+      });
+      setIsSubmitting(false);
+      onOpenChange(false);
+      setEmail('');
+    }, 1500);
+  };
+
+  const handleSkip = () => {
+    onOpenChange(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader className="text-center space-y-3">
+          <div className="mx-auto w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
+            <Sparkles className="w-6 h-6 text-white" />
+          </div>
+          <DialogTitle className="text-xl">Love your analysis?</DialogTitle>
+          <DialogDescription className="text-base">
+            Sign up to save your outfit insights, get personalized recommendations, and track your style journey!
+          </DialogDescription>
+        </DialogHeader>
+        
+        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+          <div className="space-y-2">
+            <Label htmlFor="email">Email address</Label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Input
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="pl-10"
+                disabled={isSubmitting}
+              />
+            </div>
+          </div>
+          
+          <div className="flex flex-col gap-2 pt-2">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-gradient-primary hover:shadow-card transition-all duration-300"
+            >
+              {isSubmitting ? (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2 animate-spin" />
+                  Creating account...
+                </>
+              ) : (
+                <>
+                  <Mail className="w-4 h-4 mr-2" />
+                  Create free account
+                </>
+              )}
+            </Button>
+            
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={handleSkip}
+              disabled={isSubmitting}
+              className="text-sm"
+            >
+              Maybe later
+            </Button>
+          </div>
+        </form>
+        
+        <p className="text-xs text-muted-foreground text-center mt-4">
+          By signing up, you agree to our terms of service and privacy policy.
+        </p>
+      </DialogContent>
+    </Dialog>
+  );
+};
