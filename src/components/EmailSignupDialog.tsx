@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 interface EmailSignupDialogProps {
   open: boolean;
@@ -36,16 +37,38 @@ export const EmailSignupDialog = ({ open, onOpenChange }: EmailSignupDialogProps
 
     setIsSubmitting(true);
     
-    // Simulate signup process - replace with actual Supabase auth once connected
-    setTimeout(() => {
+    try {
+      const { error } = await (supabase as any)
+        .from('Email')
+        .insert([{ Email: email }]);
+
+      if (error) {
+        console.error('Supabase error:', error);
+        toast({
+          title: "Error",
+          description: "Failed to save your email. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       toast({
         title: "Welcome to StyleAI! 🎉",
-        description: "Your account has been created successfully. You can now save your outfit analyses!",
+        description: "Your email has been saved successfully. You can now save your outfit analyses!",
       });
-      setIsSubmitting(false);
+      
       onOpenChange(false);
       setEmail('');
-    }, 1500);
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleSkip = () => {
