@@ -16,18 +16,21 @@ export type Database = {
     Tables: {
       Email: {
         Row: {
+          analysis: Json | null
           created_at: string | null
           Email: string
           image_path: string | null
           image_url: string | null
         }
         Insert: {
+          analysis?: Json | null
           created_at?: string | null
           Email: string
           image_path?: string | null
           image_url?: string | null
         }
         Update: {
+          analysis?: Json | null
           created_at?: string | null
           Email?: string
           image_path?: string | null
