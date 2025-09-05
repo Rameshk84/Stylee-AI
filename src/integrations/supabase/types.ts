@@ -16,13 +16,22 @@ export type Database = {
     Tables: {
       Email: {
         Row: {
+          created_at: string | null
           Email: string
+          image_path: string | null
+          image_url: string | null
         }
         Insert: {
+          created_at?: string | null
           Email: string
+          image_path?: string | null
+          image_url?: string | null
         }
         Update: {
+          created_at?: string | null
           Email?: string
+          image_path?: string | null
+          image_url?: string | null
         }
         Relationships: []
       }

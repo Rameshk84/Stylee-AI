@@ -16,9 +16,18 @@ import { supabase } from '@/integrations/supabase/client';
 interface EmailSignupDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  imageFile?: File | null;
+  analysis?: any;
+  occasion?: string | null;
 }
 
-export const EmailSignupDialog = ({ open, onOpenChange }: EmailSignupDialogProps) => {
+export const EmailSignupDialog = ({ 
+  open, 
+  onOpenChange, 
+  imageFile, 
+  analysis, 
+  occasion 
+}: EmailSignupDialogProps) => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -38,15 +47,55 @@ export const EmailSignupDialog = ({ open, onOpenChange }: EmailSignupDialogProps
     setIsSubmitting(true);
     
     try {
+      let imageUrl = null;
+      let imagePath = null;
+
+      // Upload image to Supabase storage if provided
+      if (imageFile) {
+        const fileExt = imageFile.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+        imagePath = `outfit-images/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('outfit-images')
+          .upload(imagePath, imageFile);
+
+        if (uploadError) {
+          console.error('Storage upload error:', uploadError);
+          toast({
+            title: "Upload Error",
+            description: "Failed to upload your outfit image. Please try again.",
+            variant: "destructive",
+          });
+          return;
+        }
+
+        // Get the public URL for the uploaded image
+        const { data: { publicUrl } } = supabase.storage
+          .from('outfit-images')
+          .getPublicUrl(imagePath);
+        
+        imageUrl = publicUrl;
+      }
+
+      // Save email, image, and analysis data to database
+      const emailData = {
+        Email: email,
+        image_url: imageUrl,
+        image_path: imagePath,
+        analysis: analysis ? JSON.stringify(analysis) : null,
+        occasion: occasion,
+      };
+
       const { error } = await (supabase as any)
         .from('Email')
-        .insert([{ Email: email }]);
+        .insert([emailData]);
 
       if (error) {
-        console.error('Supabase error:', error);
+        console.error('Database error:', error);
         toast({
           title: "Error",
-          description: "Failed to save your email. Please try again.",
+          description: "Failed to save your information. Please try again.",
           variant: "destructive",
         });
         return;
@@ -54,7 +103,7 @@ export const EmailSignupDialog = ({ open, onOpenChange }: EmailSignupDialogProps
 
       toast({
         title: "Welcome to StyleAI! 🎉",
-        description: "Your email has been saved successfully. You can now save your outfit analyses!",
+        description: "Your outfit analysis and email have been saved successfully!",
       });
       
       onOpenChange(false);

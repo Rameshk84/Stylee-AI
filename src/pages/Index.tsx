@@ -61,6 +61,7 @@ const mockSuggestions = [
 const Index = () => {
   const { toast } = useToast();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null);
   const [analysis, setAnalysis] = useState<any>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -69,6 +70,7 @@ const Index = () => {
   const handleImageSelect = (file: File) => {
     const url = URL.createObjectURL(file);
     setSelectedImage(url);
+    setSelectedImageFile(file);
     toast({
       title: "Image uploaded successfully!",
       description: "Your outfit photo is ready for analysis.",
@@ -102,6 +104,7 @@ const Index = () => {
 
   const clearImage = () => {
     setSelectedImage(null);
+    setSelectedImageFile(null);
     setAnalysis(null);
   };
 
@@ -183,7 +186,10 @@ const Index = () => {
       {/* Email Signup Dialog */}
       <EmailSignupDialog 
         open={showEmailSignup} 
-        onOpenChange={setShowEmailSignup} 
+        onOpenChange={setShowEmailSignup}
+        imageFile={selectedImageFile}
+        analysis={analysis}
+        occasion={selectedOccasion}
       />
     </div>
   );
