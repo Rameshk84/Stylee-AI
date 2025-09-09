@@ -21,6 +21,7 @@ export type Database = {
           Email: string
           image_path: string | null
           image_url: string | null
+          occasion: string | null
         }
         Insert: {
           analysis?: Json | null
@@ -28,6 +29,7 @@ export type Database = {
           Email: string
           image_path?: string | null
           image_url?: string | null
+          occasion?: string | null
         }
         Update: {
           analysis?: Json | null
@@ -35,6 +37,7 @@ export type Database = {
           Email?: string
           image_path?: string | null
           image_url?: string | null
+          occasion?: string | null
         }
         Relationships: []
       }

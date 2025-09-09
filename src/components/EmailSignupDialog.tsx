@@ -126,20 +126,20 @@ export const EmailSignupDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md border-border bg-card">
         <DialogHeader className="text-center space-y-3">
-          <div className="mx-auto w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
-            <Sparkles className="w-6 h-6 text-white" />
+          <div className="mx-auto w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+            <Sparkles className="w-6 h-6 text-primary-foreground" />
           </div>
-          <DialogTitle className="text-xl">Love your analysis?</DialogTitle>
-          <DialogDescription className="text-base">
+          <DialogTitle className="text-xl text-foreground">Love your analysis?</DialogTitle>
+          <DialogDescription className="text-base text-muted-foreground">
             Sign up to save your outfit insights, get personalized recommendations, and track your style journey!
           </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email address</Label>
+            <Label htmlFor="email" className="text-foreground">Email address</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
@@ -148,7 +148,7 @@ export const EmailSignupDialog = ({
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
+                className="pl-10 bg-background border-border text-foreground"
                 disabled={isSubmitting}
               />
             </div>
@@ -158,7 +158,8 @@ export const EmailSignupDialog = ({
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="bg-gradient-primary hover:shadow-card transition-all duration-300"
+              variant="gradient"
+              className="w-full"
             >
               {isSubmitting ? (
                 <>
