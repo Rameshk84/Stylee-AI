@@ -109,76 +109,111 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-primary text-white py-16 px-4">
-        <div className="container mx-auto text-center max-w-2xl">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="w-8 h-8" />
-            <h1 className="text-3xl md:text-4xl font-bold">StyleAI</h1>
+    <div className="min-h-screen bg-gradient-mesh">
+      {/* Hero Section with Apple-style design */}
+      <section className="relative py-24 px-4 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-mesh opacity-50"></div>
+        <div className="container mx-auto text-center max-w-4xl relative z-10">
+          <div className="animate-fade-in">
+            <div className="flex items-center justify-center gap-3 mb-6 animate-scale-in">
+              <div className="relative">
+                <Sparkles className="w-12 h-12 text-primary animate-glow" />
+                <div className="absolute inset-0 w-12 h-12 text-primary/20 animate-pulse"></div>
+              </div>
+              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">
+                StyleAI
+              </h1>
+            </div>
+            
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 font-light max-w-2xl mx-auto animate-fade-in-up">
+              Transform your style with AI-powered outfit analysis
+            </p>
+            
+            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground animate-slide-in-left">
+              <Shirt className="w-4 h-4" />
+              <span>Personalized • Intelligent • Instant</span>
+            </div>
           </div>
-          
-          <p className="text-lg opacity-90 mb-6">
-            AI-powered outfit analysis for any occasion
-          </p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="space-y-8">
+      {/* Main Content with Glass Morphism */}
+      <section className="container mx-auto px-4 pb-16 max-w-5xl">
+        <div className="space-y-12">
           {/* Upload Section */}
-          <Card className="p-6">
-            <h2 className="text-xl font-semibold mb-4 text-center">
-              Upload Your Outfit Photo
-            </h2>
-            <ImageUpload
-              onImageSelect={handleImageSelect}
-              selectedImage={selectedImage}
-              onClear={clearImage}
-            />
-          </Card>
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <Card className="bg-gradient-card backdrop-blur-glass border-0 shadow-glass p-8 hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl md:text-3xl font-bold mb-3 text-foreground">
+                  Upload Your Outfit
+                </h2>
+                <p className="text-muted-foreground">
+                  Let our AI analyze your style and provide personalized recommendations
+                </p>
+              </div>
+              <ImageUpload
+                onImageSelect={handleImageSelect}
+                selectedImage={selectedImage}
+                onClear={clearImage}
+              />
+            </Card>
+          </div>
 
-          {/* Occasion Selection */}
+          {/* Occasion Selection with Animation */}
           {selectedImage && (
-            <OccasionSelector
-              selectedOccasion={selectedOccasion}
-              onSelect={setSelectedOccasion}
-            />
-          )}
-
-          {/* Analyze Button */}
-          {selectedImage && selectedOccasion && (
-            <div className="text-center">
-              <Button
-                onClick={handleAnalyze}
-                disabled={isAnalyzing}
-                className="bg-gradient-primary hover:shadow-card transition-all duration-300 px-8 py-3"
-                size="lg"
-              >
-                {isAnalyzing ? (
-                  <>
-                    <Sparkles className="w-5 h-5 mr-2 animate-spin" />
-                    Analyzing...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-5 h-5 mr-2" />
-                    Analyze My Outfit
-                  </>
-                )}
-              </Button>
+            <div className="animate-slide-in-right">
+              <OccasionSelector
+                selectedOccasion={selectedOccasion}
+                onSelect={setSelectedOccasion}
+              />
             </div>
           )}
 
-          {/* Results */}
-          <OutfitAnalysis analysis={analysis} isLoading={isAnalyzing} />
+          {/* Analyze Button with Glassmorphism */}
+          {selectedImage && selectedOccasion && (
+            <div className="text-center animate-scale-in">
+              <div className="relative inline-block">
+                <Button
+                  onClick={handleAnalyze}
+                  disabled={isAnalyzing}
+                  className="relative bg-gradient-button hover:shadow-xl transition-all duration-300 px-12 py-4 text-lg font-semibold border-0 hover:scale-105 active:scale-95 overflow-hidden group"
+                  size="lg"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center">
+                    {isAnalyzing ? (
+                      <>
+                        <Sparkles className="w-5 h-5 mr-3 animate-spin" />
+                        Analyzing Your Style...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-5 h-5 mr-3 animate-float" />
+                        Analyze My Outfit
+                      </>
+                    )}
+                  </div>
+                  {/* Shimmer effect */}
+                  {!isAnalyzing && (
+                    <div className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shimmer"></div>
+                  )}
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Results with Staggered Animation */}
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            <OutfitAnalysis analysis={analysis} isLoading={isAnalyzing} />
+          </div>
           
           {analysis && selectedOccasion && (
-            <StyleSuggestions 
-              suggestions={mockSuggestions} 
-              occasion={selectedOccasion}
-            />
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+              <StyleSuggestions 
+                suggestions={mockSuggestions} 
+                occasion={selectedOccasion}
+              />
+            </div>
           )}
         </div>
       </section>

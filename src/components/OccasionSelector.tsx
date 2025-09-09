@@ -77,37 +77,41 @@ interface OccasionSelectorProps {
 
 export const OccasionSelector = ({ selectedOccasion, onSelect }: OccasionSelectorProps) => {
   return (
-    <Card className="p-6">
-      <div className="text-center mb-6">
-        <h3 className="text-lg font-semibold mb-2">
+    <Card className="bg-gradient-card backdrop-blur-glass border-0 shadow-glass p-8 hover:shadow-xl transition-all duration-500 animate-fade-in-up">
+      <div className="text-center mb-8">
+        <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
           What's the Occasion?
         </h3>
-        <p className="text-muted-foreground text-sm">
-          Choose your event type
+        <p className="text-muted-foreground">
+          Choose your event type for personalized styling
         </p>
       </div>
       
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-        {occasions.map((occasion) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        {occasions.map((occasion, index) => (
           <Button
             key={occasion.id}
             variant={selectedOccasion === occasion.id ? "default" : "outline"}
             className={cn(
-              "h-auto p-3 flex flex-col items-center gap-2 transition-all duration-200",
-              selectedOccasion === occasion.id && "bg-gradient-primary text-white"
+              "h-auto p-4 flex flex-col items-center gap-3 transition-all duration-300 hover:scale-105 hover:shadow-lg rounded-xl group animate-slide-in-left border-2",
+              selectedOccasion === occasion.id 
+                ? "bg-gradient-button text-white border-transparent shadow-lg scale-105" 
+                : "bg-gradient-card/50 backdrop-blur-sm border-muted/50 hover:border-primary/50 hover:bg-accent/20"
             )}
+            style={{ animationDelay: `${index * 0.1}s` }}
             onClick={() => onSelect(occasion.id)}
           >
             <div className={cn(
-              "w-8 h-8 rounded-full flex items-center justify-center",
+              "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:rotate-6",
               selectedOccasion === occasion.id 
-                ? "bg-white/20" 
-                : cn("bg-gradient-to-br text-white", occasion.gradient)
+                ? "bg-white/20 text-white" 
+                : cn("bg-gradient-to-br text-white shadow-md", occasion.gradient)
             )}>
               {occasion.icon}
             </div>
-            <div className="text-center">
-              <div className="font-medium text-xs">{occasion.label}</div>
+            <div className="text-center space-y-1">
+              <div className="font-semibold text-sm">{occasion.label}</div>
+              <div className="text-xs opacity-70 leading-tight">{occasion.description}</div>
             </div>
           </Button>
         ))}

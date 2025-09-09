@@ -159,17 +159,20 @@ export const ImageUpload = ({ onImageSelect, selectedImage, onClear }: ImageUplo
   // Selected image display
   if (selectedImage) {
     return (
-      <div className="relative mx-auto max-w-xs">
-        <img
-          src={selectedImage}
-          alt="Selected outfit"
-          className="w-full h-48 object-cover rounded-lg"
-        />
+      <div className="relative mx-auto max-w-xs group animate-scale-in">
+        <div className="relative overflow-hidden rounded-2xl shadow-xl">
+          <img
+            src={selectedImage}
+            alt="Selected outfit"
+            className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        </div>
         <Button
           onClick={onClear}
           variant="outline"
           size="sm"
-          className="absolute top-2 right-2 w-8 h-8 p-0 bg-background"
+          className="absolute -top-2 -right-2 w-8 h-8 p-0 bg-background/90 backdrop-blur-sm border-2 hover:bg-destructive hover:text-destructive-foreground hover:border-destructive transition-all duration-300 hover:scale-110"
         >
           <X className="w-4 h-4" />
         </Button>
@@ -179,35 +182,45 @@ export const ImageUpload = ({ onImageSelect, selectedImage, onClear }: ImageUplo
 
   // Upload interface
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div
         className={cn(
-          "border-2 border-dashed rounded-lg p-6 text-center transition-all duration-200 cursor-pointer",
-          "hover:border-primary/50",
-          isDragging ? "border-primary bg-primary/5" : "border-muted-foreground/25"
+          "border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-300 cursor-pointer group",
+          "hover:border-primary/50 hover:shadow-lg hover:bg-accent/20",
+          "backdrop-blur-sm bg-gradient-card/50",
+          isDragging ? "border-primary bg-primary/10 scale-[1.02] shadow-lg" : "border-muted-foreground/25"
         )}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onClick={triggerFileInput}
       >
-        <div className="space-y-4">
-          <div className="mx-auto w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
-            <Upload className="w-6 h-6 text-white" />
+        <div className="space-y-6 animate-fade-in">
+          <div className={cn(
+            "mx-auto w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-3",
+            isDragging ? "bg-primary scale-110" : "bg-gradient-button"
+          )}>
+            <Upload className={cn(
+              "w-7 h-7 transition-colors duration-300",
+              isDragging ? "text-white animate-bounce" : "text-white"
+            )} />
           </div>
           
-          <div className="space-y-2">
-            <p className="font-medium">
+          <div className="space-y-3">
+            <p className="font-semibold text-lg">
               {isDragging ? "Drop your photo here" : "Upload outfit photo"}
             </p>
-            <p className="text-sm text-muted-foreground">
-              Tap to select or drag & drop
+            <p className="text-muted-foreground">
+              Tap to select or drag & drop your image
             </p>
           </div>
           
-          <p className="text-xs text-muted-foreground">
-            JPG, PNG, WEBP • Max 10MB
-          </p>
+          <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+            <span className="px-2 py-1 bg-muted rounded-full">JPG</span>
+            <span className="px-2 py-1 bg-muted rounded-full">PNG</span>
+            <span className="px-2 py-1 bg-muted rounded-full">WEBP</span>
+            <span className="text-muted-foreground/60">• Max 10MB</span>
+          </div>
         </div>
         
         <input
@@ -219,16 +232,23 @@ export const ImageUpload = ({ onImageSelect, selectedImage, onClear }: ImageUplo
         />
       </div>
       
-      <div className="text-center mt-4">
-        <Button
-          onClick={toggleCameraMode}
-          variant="outline"
-          className="w-full bg-background border-2 border-primary/20 hover:bg-primary/5 hover:border-primary/30 transition-all"
-        >
-          <Camera className="w-4 h-4 mr-2" />
-          Take Photo with Camera
-        </Button>
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-muted/50"></div>
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="bg-background px-4 text-muted-foreground">or</span>
+        </div>
       </div>
+      
+      <Button
+        onClick={toggleCameraMode}
+        variant="outline"
+        className="w-full h-12 bg-gradient-card border-2 border-muted/50 hover:border-primary/50 hover:bg-accent/20 transition-all duration-300 hover:shadow-md hover:scale-[1.02] group"
+      >
+        <Camera className="w-5 h-5 mr-3 group-hover:animate-pulse" />
+        <span className="font-medium">Take Photo with Camera</span>
+      </Button>
     </div>
   );
 };
