@@ -7,6 +7,7 @@ import { OccasionSelector } from '@/components/OccasionSelector';
 import { OutfitAnalysis } from '@/components/OutfitAnalysis';
 import { StyleSuggestions } from '@/components/StyleSuggestions';
 import { EmailSignupDialog } from '@/components/EmailSignupDialog';
+import Footer from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
 import heroImage from '@/assets/hero-fashion.jpg';
 
@@ -226,6 +227,9 @@ const Index = () => {
         analysis={analysis}
         occasion={selectedOccasion}
       />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
